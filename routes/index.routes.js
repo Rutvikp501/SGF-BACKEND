@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const leadController = require('../controllers/lead.controller');
-const User  = require('../controllers/User.controler');
+const User  = require('../controllers/user.controler');
 
 
 router.post('/addLead', leadController.addLead);
