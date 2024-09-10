@@ -1,0 +1,428 @@
+openapi: 3.0.0
+info:
+  title: User Management and Lead Management API
+  version: 1.0.0
+  description: API documentation for User Management and Lead Management
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
+
+paths:
+  /api/getAllUser:
+    get:
+      tags:
+        - User API
+      description: Get all users
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getSearcheduser:
+    post:
+      tags:
+        - User API
+      description: Search for users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                search:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getUserData:
+    post:
+      tags:
+        - User API
+      description: Search for users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                UserId:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/login:
+    post:
+      tags:
+        - User API
+      description: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email_id:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/register:
+    post:
+      tags:
+        - User API
+      description: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_code:
+                  type: string
+                user_name:
+                  type: string
+                email_id:
+                  type: string
+                mobile_no:
+                  type: number
+                password:
+                  type: string
+                role:
+                  type: string
+                dateOfJoining:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/edit:
+    post:
+      tags:
+        - User API
+      description: Edit user details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_code:
+                  type: string
+                user_name:
+                  type: string
+                email_id:
+                  type: string
+                mobile_no:
+                  type: number
+                role:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/update/{id}:
+    patch:
+      tags:
+        - User API
+      description: Update a user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                email_id:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/delete/{id}:
+    delete:
+      tags:
+        - User API
+      description: Delete a user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+
+  /api/forgotPassword:
+    post:
+      tags:
+        - User API
+      description: User forgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email_id:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/resetPassword:
+    post:
+      tags:
+        - User API
+      description: User resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email_id:
+                  type: string
+                otp:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/addLead:
+    post:
+      tags:
+        - Lead API
+      description: Add a new lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consultant:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                pincode:
+                  type: string
+                eventSpecialsName:
+                  type: string
+                specialCode:
+                  type: string
+                leadType:
+                  type: string
+                status:
+                  type: string
+                  enum: ['Pending', 'Converted', 'Junk']
+                events:
+                  type: array
+                  description: Array of events associated with the lead
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Event name
+                      location:
+                        type: string
+                        description: Event location
+                      date:
+                        type: string
+                        format: date
+                        description: Event date (YYYY-MM-DD)
+                      timing:
+                        type: string
+                        description: Event timing (e.g., "10AM to 3PM")
+                package:
+                  type: object
+                  description: Package details related to the lead
+                  properties:
+                    packageName:
+                      type: string
+                      description: Name of the package
+                    subname:
+                      type: string
+                      description: Subname or sub-category of the package
+                    addOns:
+                      type: string
+                      description: Add-ons for the package (comma-separated)
+                    amount:
+                      type: number
+                      description: Amount for the package
+
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getAllLeads:
+    get:
+      tags:
+        - Lead API
+      description: Get all leads
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getLeadscount:
+    get:
+      tags:
+        - Lead API
+      description: Get leads count
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getDashboardData:
+    get:
+      tags:
+        - Lead API
+      description: Get dashboard data
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getconvertedLeads:
+    get:
+      tags:
+        - Lead API
+      description: Get converted leads
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getpendingLeads:
+    get:
+      tags:
+        - Lead API
+      description: Get pending leads
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getleadsview/{leadId}:
+    get:
+      tags:
+        - Lead API
+      description: Get detailed view of a lead
+      parameters:
+        - in: path
+          name: leadId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Lead not found
+        '500':
+          description: Internal server error
+
+  /api/getLeadsByConsultant:
+    post:
+      tags:
+        - Lead API
+      description: Get leads by consultant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consultant_code:
+                  type: string
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+
+  /api/getAdditionalData/{leadId}:
+    get:
+      tags:
+        - Lead API
+      description: Get additional data for a lead
+      parameters:
+        - in: path
+          name: leadId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: No additional data found
+        '500':
+          description: Internal server error
